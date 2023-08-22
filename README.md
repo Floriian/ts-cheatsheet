@@ -356,11 +356,11 @@ The as keyword is a Type Assertion in TypeScript which tells the compiler to con
 
 ## Omit, Pick, Partial built-in types.
 
-Remember: Always use theese types with 'type' keyword.
+Remember: Always use these types with the 'type' keyword.
 
 ### Omit
 
-The 'Omit' type omits one or more field in a type. So you don't have to create an another type.
+The 'Omit' type omits one or more fields in a type. So you don't have to create another type.
 
 The following syntax is:
 
