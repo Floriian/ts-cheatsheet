@@ -69,23 +69,23 @@ For multi-dimensional arrays:
 1:
 
 ```typescript
-const 2DArray: string[][] = [['NestJS'], ['Express'], ['Moleculer']]
-const 3DArray: string[][][] = [...];
+const Array2D: string[][] = [['NestJS'], ['Express'], ['Moleculer']]
+const Array3D: string[][][] = [...];
 ```
 
 2:
 
 ```typescript
-const 2DArray: Array<string[]> = [['NestJS'], ['Express'], ['Moleculer']];
+const Array2D: Array<string[]> = [['NestJS'], ['Express'], ['Moleculer']];
 //Or:
-const 3DArray: Array<string[][]> = [...];
+const Array3D: Array<string[][]> = [...];
 ```
 
 Yo can also wrap Array with Array type
 
 ```typescript
-const 2DArray: Array<Array<string>> = [['NestJS'], ['Express'], ['Moleculer']];
-const 3DArray: Array<Array<Array<string>>> = [...];
+const Array2D: Array<Array<string>> = [['NestJS'], ['Express'], ['Moleculer']];
+const Array3D: Array<Array<Array<string>>> = [...];
 ```
 
 ## Interfaces
@@ -116,14 +116,30 @@ interface ICat extends IAnimal {
 
 ```typescript
 class Animal implements IAnimal {
-  public age: number = 0; // Value initialization is required!
+  public name: string = "";
+  public age: number = 0;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  doSomething() {
+    console.log({ name: this.name, age: this.age });
+  }
+
+  //Or you can type the return value
+  doSomethingTemeraftama(): string {
+    return `${this.name} - ${this.age}`;
+  }
 }
 ```
 
 ```typescript
 class Cat extends Animal implements ICat {
-  public meow() {
-    console.log("meooooooooooooooooooooooow");
+  meow() {
+    //You dont need to type the return value, because its inherited from "ICat" interface.
+    return console.log("MEOOOOOOOOW");
   }
 }
 ```
@@ -131,17 +147,26 @@ class Cat extends Animal implements ICat {
 Interfaces can also be used to declare object structures:
 
 ```typescript
-interface ICat {
-    age: number;
-    meow: () => void;
-}
-
-const cat: ICat {
-    age: 2,
-    meow: () => {
-        console.log("MEOOOOOOOOOOOOW");
-    }
+const cat: ICat = {
+  age: 0,
+  meow() {
+    return console.log("MEOOOOOW");
+  },
+  name: "Cirmi",
 };
+
+cat.meow(); //?^ MEOOOOOW
+```
+
+## Classes as type
+
+You can use a class as type. I use the previous Animal & Cat classes, this example shows how to use a class as type in a function.
+Using with a variable is possible, but you need to initialize variable first.
+
+```typescript
+function infinityEnergy(cat: Cat) {
+  cat.age++;
+}
 ```
 
 ## Types
@@ -328,6 +353,44 @@ something.a = "C"; // Error is thrown
 ## The 'as' keyword.
 
 The as keyword is a Type Assertion in TypeScript which tells the compiler to consider the object as another type than the type the compiler infers the object to be. (https://stackoverflow.com/questions/55781559/what-does-the-as-keyword-do)
+
+## Omit, Pick, Partial built-in types.
+
+Remember: Always use theese types with 'type' keyword.
+
+### Omit
+
+The 'Omit' type omits one or more field in a type. So you don't have to create an another type.
+
+The following syntax is:
+
+```typescript
+Omit<T, K extends string | number | symbol>
+```
+
+Example for remove one field:
+
+```typescript
+type OmitAge = Omit<Animal, "name">;
+```
+
+![Omit](/assets/omit.png)
+
+And for multiple fields (Seperate omitable fields by '|' character.)
+
+```typescript
+type OmitAgeAndNumber = Omit<Animal, "name" | "age">;
+```
+
+![Omit multiple](/assets/omitmultiple.png)
+
+### Pick
+
+TODO
+
+### Partial
+
+TODO
 
 ## Rules of Typescript development:
 
